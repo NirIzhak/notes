@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { useState, useEffect } from "react";
 import "./App.css";
 import Note from "./components/Note";
@@ -8,6 +9,17 @@ const App = () => {
   const [currentNoteTitle, SetCurrentNoteTitle] = useState("");
   const [currentNoteBody, SetCurrentNoteBody] = useState("");
   const [currentNoteDate, SetCurrentNoteDate] = useState("");
+  const titleRef = useRef("");
+  const bodyRef = useRef("");
+  const dateRef = useRef("");
+
+
+  // clear inputs value after creating new note
+  const ClearInputs = ()=>{
+    titleRef.current.value = "";
+    bodyRef.current.value = "";
+    dateRef.current.value = "";
+  }
 
   // add a new note to arr
   const CreateNewNote = () => {
@@ -45,20 +57,27 @@ const App = () => {
         <input
           type="text"
           placeholder="Title"
+          ref={titleRef}
           onChange={(val) => SetCurrentNoteTitle(val.target.value)}
         />
         <input
           type="textarea"
           placeholder="body"
+          ref={bodyRef}
           onChange={(val) => SetCurrentNoteBody(val.target.value)}
         />
         <input
           type="date"
+          ref={dateRef}
           onChange={(val) => SetCurrentNoteDate(val.target.value)}
         />
         <button
           onClick={() => {
+            if(titleRef.current.value == "" || bodyRef.current.value== "" || dateRef.current.value=="") alert("You Missing Some Details!");
+            else{
             CreateNewNote();
+            ClearInputs();
+          }
           }}
         >
           Create
