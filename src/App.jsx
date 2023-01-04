@@ -13,13 +13,12 @@ const App = () => {
   const bodyRef = useRef("");
   const dateRef = useRef("");
 
-
   // clear inputs value after creating new note
-  const ClearInputs = ()=>{
+  const ClearInputs = () => {
     titleRef.current.value = "";
     bodyRef.current.value = "";
     dateRef.current.value = "";
-  }
+  };
 
   // add a new note to arr
   const CreateNewNote = () => {
@@ -49,7 +48,6 @@ const App = () => {
     SetSort(false);
   }, [sort]);
 
-  
   return (
     <>
       <h1 className="big-title">Notes</h1>
@@ -58,10 +56,13 @@ const App = () => {
           type="text"
           placeholder="Title"
           ref={titleRef}
-          onChange={(val) => SetCurrentNoteTitle(val.target.value)}
+          onChange={(val) =>{
+            SetCurrentNoteTitle(val.target.value)
+            val.target.value == "" ? val.target.style.borderColor = "red":val.target.style.borderColor = "green" }
+          } 
         />
-        <input
-          type="textarea"
+        <textarea
+          type="text"
           placeholder="body"
           ref={bodyRef}
           onChange={(val) => SetCurrentNoteBody(val.target.value)}
@@ -71,13 +72,22 @@ const App = () => {
           ref={dateRef}
           onChange={(val) => SetCurrentNoteDate(val.target.value)}
         />
+      </div>
+
+      <div className="buttons">
         <button
+          id="create"
           onClick={() => {
-            if(titleRef.current.value == "" || bodyRef.current.value== "" || dateRef.current.value=="") alert("You Missing Some Details!");
-            else{
-            CreateNewNote();
-            ClearInputs();
-          }
+            if (
+              titleRef.current.value == "" ||
+              bodyRef.current.value == "" ||
+              dateRef.current.value == ""
+            )
+              alert("You Missing Some Details!");
+            else {
+              CreateNewNote();
+              ClearInputs();
+            }
           }}
         >
           Create
@@ -97,6 +107,14 @@ const App = () => {
           }}
         >
           Sort By Date Up
+        </button>
+        <button
+        id="clear"
+          onClick={() => {
+            SetNotes([]);
+          }}
+        >
+          Clear All Notes
         </button>
       </div>
       <div className="notes">
